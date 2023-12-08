@@ -1,0 +1,26 @@
+#Git
+.git
+.gitignore
+
+#Docker
+.docker
+
+
+# Python
+# We have to use like below because docker won't check sub folders.
+app/__pycache__/
+app/*/__pycache__/
+app/*/*/__pycache__/
+app/*/*/*/__pycache__/
+
+.env/
+.venv/
+venv/
+
+
+
+
+
+
+
+
