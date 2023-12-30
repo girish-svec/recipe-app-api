@@ -4,7 +4,7 @@ Tests for the user API."""
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-
+from django.contrib.auth.hashers import check_password
 from rest_framework.test import APIClient
 from rest_framework import status
 
@@ -28,11 +28,9 @@ class PublicUserAPITests(TestCase):
             "name":"Test Name"
         }
         res = self.client.post(CREATE_USER_URL, payload)
-
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         user = get_user_model().objects.get(email=payload["email"])
         self.assertTrue(user.check_password(payload["password"]))
-        # making sure that password not in the response.
         self.assertNotIn("password", res.data)
 
     def test_user_with_email_exists_error(self):
