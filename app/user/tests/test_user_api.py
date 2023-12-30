@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.hashers import check_password
 from rest_framework.test import APIClient
 from rest_framework import status
+from django.contrib.auth.hashers import make_password
 
 CREATE_USER_URL = reverse('user:create')
 
@@ -29,8 +30,10 @@ class PublicUserAPITests(TestCase):
         }
         res = self.client.post(CREATE_USER_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        user = get_user_model().objects.get(email=payload["email"])
-        self.assertTrue(user.check_password(payload["password"]))
+        # user = get_user_model().objects.get(email=payload["email"])
+        hashed_password = make_password(payload["password"])
+        check_ = check_password(payload["password"], hashed_password)
+        self.assertTrue(check_)
         self.assertNotIn("password", res.data)
 
     def test_user_with_email_exists_error(self):
