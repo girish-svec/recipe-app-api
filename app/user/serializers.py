@@ -10,7 +10,7 @@ from django.utils.translation import gettext as _
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for the user object."""
-
+    print("Hello.........")
     class Meta:
         model = get_user_model()
         fields = ('email', 'password', 'name')
