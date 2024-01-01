@@ -10,21 +10,18 @@ from django.utils.translation import gettext as _
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for the user object."""
-    print("Hello.........")
     class Meta:
         model = get_user_model()
         fields = ('email', 'password', 'name')
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
-    def create_user(self, validated_data):
-        print("Create.......",validated_data)
+    def create(self, validated_data):
         """Create and return a user with encrypted password."""
         return get_user_model().objects.create_user(**validated_data)
 
     def update(slef,instance, validated_data):
         """Update and return USER."""
-        print("Update.......",validated_data)
-        password = validated_data.pop('passowrd',None)
+        password = validated_data.pop('password',None)
         user = super().update(instance, validated_data)
 
         if password:
